@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://code.angularjs.org/1.7.8/angular.js"></script>
+    <script src="js/NewVisionsDashboard.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body ng-app="dashboardApp">    
+    <div ng-controller="dashboardCtrl">    
+    <h1>New Visions Dashboard for Student Attendance</h1>
+    <p style="display: inline-block">Attendance Percentage Threshold:</p>
+
+    <!-- Input for the attendance percentage threshold -->
+    <input type="number" ng-model="threshold" max=100 step="0.1">    
+    <p>(Students who are below this value will be displayed)</p>
+    
+    <!-- Table of student data  -->
+    <table class="table table-striped">
+        <tr>
+          <th>Student Name (Last,First)</th>
+          <th>Grade</th>
+          <th>Student ID</th>
+          <th>Student Contact Info</th>
+          <th>Guidance Counselor</th>
+          <th>Attendance Percentage</th>
+        </tr>
+        <!-- Loop through student data read from JSON file and display them in table. Sort them by their last name -->
+        <tr ng-repeat="student in students | orderBy : ['lastName','firstName']" ng-if="student.attendancePercentage <= threshold">
+            <td>{{ student.lastName }}, {{student.firstName}}</td>
+            <td>{{student.grade}}</td>
+            <td>{{student.studentId}}</td>
+            <td>Email: {{student.email}} </br> Home Phone #: {{student.homePhoneNumber}}</td>
+            <td>Name: {{ student.guidanceCounselor }} </br> Email: {{ student.guidanceCounselorEmail}}</td>
+            <td>{{ student.attendancePercentage }}</td>
+        </tr>            
+    </table>
+  </div>
+  </body>
+</html>
